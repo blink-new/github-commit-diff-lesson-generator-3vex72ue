@@ -46,7 +46,7 @@ export function LessonPanel({ commit, repositoryId }: LessonPanelProps) {
     try {
       setLoading(true)
       const lessonsData = await blink.db.lessons.list({
-        where: { commitId: commit.id },
+        where: { commit_id: commit.id },
         limit: 1
       })
 
@@ -86,8 +86,8 @@ export function LessonPanel({ commit, repositoryId }: LessonPanelProps) {
       setGenerating(true)
       
       // Get commit files for context
-      const filesData = await blink.db.commitFiles.list({
-        where: { commitId: commit.id }
+      const filesData = await blink.db.commit_files.list({
+        where: { commit_id: commit.id }
       })
 
       const filesContext = filesData.map(file => ({
@@ -134,13 +134,13 @@ export function LessonPanel({ commit, repositoryId }: LessonPanelProps) {
       
       const newLesson = await blink.db.lessons.create({
         id: lessonId,
-        commitId: commit.id,
+        commit_id: commit.id,
         title: `Understanding: ${commit.message}`,
         content: text,
         summary: `Learn about the changes made in commit ${commit.sha.substring(0, 8)}`,
-        keyConcepts: 'Git, Version Control, Code Analysis',
-        difficultyLevel: 'intermediate',
-        estimatedReadingTime: Math.ceil(text.length / 200), // Rough estimate
+        key_concepts: 'Git, Version Control, Code Analysis',
+        difficulty_level: 'intermediate',
+        estimated_reading_time: Math.ceil(text.length / 200), // Rough estimate
         status: 'generated'
       })
 
